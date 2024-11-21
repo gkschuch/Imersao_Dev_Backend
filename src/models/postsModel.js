@@ -1,14 +1,20 @@
-import conectarAoBanco from '../config/dbconfig.js';
+import conectarAoBanco from "../config/dbconfig.js";
 
-// Conexão com o banco de dados
+// Conecta ao banco de dados utilizando a string de conexão fornecida como variável de ambiente
 const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
 
-// Função assíncrona para obter todos os posts do banco de dados
-export default async function getTodosPosts() {
-    // Selecionar o banco de dados 'Imersao_Dev'
-    const db = conexao.db('Imersao_Dev');
-    // Selecionar a coleção 'posts'
-    const colecao = db.collection('posts');
-    // Buscar todos os documentos da coleção e retornar como um array
+// Função assíncrona para buscar todos os posts do banco de dados
+export async function getTodosPosts() {
+    // Seleciona o banco de dados "imersao-instabytes"
+    const db = conexao.db("Imersao_Dev");
+    // Seleciona a coleção "posts" dentro do banco de dados
+    const colecao = db.collection("posts");
+    // Retorna um array com todos os documentos da coleção
     return colecao.find().toArray();
+}
+
+export async function criarPost(novoPost) {
+    const db = conexao.db("Imersao_Dev");
+    const colecao = db.collection("posts");
+    return colecao.insertOne(novoPost)
 }
